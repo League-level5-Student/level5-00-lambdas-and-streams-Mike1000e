@@ -56,6 +56,9 @@ import java.util.stream.Stream;
 public class IntroToStreams {
     
     public static void main(String[] args) {
+    	String [] stringArray = {"Hello", "Whats Up", "Goodbye", "Have a good day"};
+    	Stream<String> arrayStringsStream = Arrays.stream(stringArray);
+    	Stream<Integer> intStream = arrayStringsStream.stream();
         class Car {
             String make;
             int mileage;

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -18,14 +19,26 @@ import org.junit.jupiter.api.Test;
  * 2. Sort the list alphabetically from a -> z.
  *    Use the .collect(Collectors.toList()) stream method to return a list
  */
+
+
+
+	
+
 public class StreamSorter {
 
     int[] sortArray(int[] arr) {
-        return null;
+    	IntStream arrStream = Arrays.stream(arr);
+    	arrStream.sorted().forEach((i) -> System.out.print(i + " " ));
+    	
+    	
+        return arrStream.toArray();
     }
 
     List<String> sortList(List<String> list) {
-        return null;
+    	Stream<String> listStream = list.stream();
+    	listStream.sorted().forEach((word) -> System.out.print(word + " "));
+		return listStream.collect(Collectors.toList());
+    	
     }
     
     // =================== DO NOT MODIFY THE CODE BELOW ======================

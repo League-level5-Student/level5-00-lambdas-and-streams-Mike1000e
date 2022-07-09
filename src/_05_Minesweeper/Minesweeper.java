@@ -2,6 +2,7 @@ package _05_Minesweeper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import processing.core.PApplet;
 
@@ -55,7 +56,7 @@ public class Minesweeper extends PApplet {
      * boolean flagged;     // true = this cell has a flag
      */
     List<Cell> cells;
-    
+    Stream<Cell> cell = cells.stream();
     /*
      * Complete the method below using streams. Use the forEach() method so all
      * the Cell objects in the cell list are marked as revealed.
@@ -63,7 +64,7 @@ public class Minesweeper extends PApplet {
      * *Note* This can be done using a for loop, but try to do it with Streams.
      */
     void revealAllCells() {
-        
+      cell.forEach((i) -> i.revealed=true);
     }
     
     /*
@@ -76,7 +77,13 @@ public class Minesweeper extends PApplet {
      *  noneMatch() // returns true if no items in the stream match the condition
      */
     boolean checkWin() {
+    	
+    	if(cell.noneMatch((i) -> i.revealed==false)==true) {
+    		return true;
+    	}else {
+    	
         return false;
+        }
     }
     
     /*
@@ -96,14 +103,22 @@ public class Minesweeper extends PApplet {
      *        - - - -
      */
     void revealCell(Cell cell) {
-        
+        if(cell.mine==false) {
+        	cell.revealed=true;
+        	if(cell.minesAround==0) {
+        		List<Cell> cellList = getNeighbors(cell);
+        		Stream<Cell> neighborStream = cellList.stream();
+        		Stream<Cell> neighborStream2 = neighborStream.filter((i)->i.mine==false);
+        		neighborStream2.forEach((i)->revealCell(i));
+        	}
+        }
     }
     
     /*
      * Complete this method using streams to set the number of surrounding
      * mines, cell.minesAround, for each cell in the cells List.
      * 1. Convert the cells list to a stream.
-     * 2. Use forEach() to iterate through each cell.
+     * 2. Use forEach() to iterate through each cell
      * 3. Call getNeighbors() to get a List of all the surrounding cell objects
      * 4. Convert the list of neighbors to a stream.
      * 5. Use a map() or mapToInt() to convert each neighbor that is a mine
@@ -111,7 +126,7 @@ public class Minesweeper extends PApplet {
      * 6. Use reduce() or sum() to count the number of 1s, i.e. mines
      */
     void setNumberOfSurroundingMines() {
-        
+        cell.forEach((i)->getNeighbors(i).stream().filter((j)->j.mine=true).mapToInt((a)->a.one));
     }
     
     @Override
